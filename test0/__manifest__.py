@@ -2,7 +2,7 @@
     'name': 'Test0', # The name that will appear in the App list
     'version': '1.0.0', # Version
     'summary': 'Test Customization',
-    'sequence': 5,
+    'sequence': 1,
     'description': """
     Long Description of your modules""",
     'author': 'Odooistic',
