@@ -4,14 +4,14 @@
         name="Hospital"
         sequence="10"/>
 
-    <menuitem id="menu_hospital_operations"
-        name="Operation"
-        parent="menu_hospital_root"
-        sequence="10"/>
-        
-    <menuitem id="menu_patients"
-        name="Patients"
-        parent="menu_hospital_operations"
-        sequence="10"/>
+        <menuitem id="menu_hospital_operations"
+            name="Operation"
+            parent="menu_hospital_root"
+            sequence="10"/>
+            
+            <menuitem id="menu_patients"
+                name="Patients"
+                parent="menu_hospital_operations"
+                sequence="10"/>
 
 </odoo>
