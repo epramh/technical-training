@@ -1,8 +1,8 @@
 {
-    'name': 'Real Estate', # The name that will appear in the App list
+    'name': 'Apps', # The name that will appear in the App list
     'version': '1.0.0', # Version
-    'summary': 'Odoo 16 Development',
-    'sequence': 4,
+    'summary': 'Odoo 16 Test Development',
+    'sequence': 1,
     'description': """
     Long Description of your modules""",
     'author': 'Ravo',

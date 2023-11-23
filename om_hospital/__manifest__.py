@@ -2,7 +2,7 @@
     'name': 'Hospital Management System', # The name that will appear in the App list
     'version': '1.0.0', # Version
     'summary': 'Odoo 16 Development',
-    'sequence': 2,
+    'sequence': 3,
     'description': """
     Long Description of your modules""",
     'author': 'Odoo Mates',
