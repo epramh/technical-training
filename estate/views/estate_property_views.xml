@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="estate_property_action" model="ir.actions.act_window">
+        <field name="name">Properties</field>
+        <field name="res_model">estate.property</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem   id="menu_estate_root" 
+                name='Real Estate'
+                action='estate_property_action'
+                sequence="1"/>
+        <menuitem   id="menu_advertisements_root" 
+                    name='Advertisements'
+                    parent='menu_estate_root'
+                    action='estate_property_action'
+                    sequence="1"/>
+            <menuitem   id="menu_properties_root" 
+                        name='Properties'
+                        parent='menu_advertisements_root'
+                        action='estate_property_action'
+                        sequence="1"/>
+    <menuitem   id="menu_estate_apps"
+                name='Apps'
+                action='estate_property_action'
+                sequence="2"/>
+    <menuitem    id="menu_estate_settings"
+                name='Settings'
+                action='estate_property_action'
+                sequence="3"/>
+
+    <record id="estate_property_view_tree" model="ir.ui.view">
+        <field name="name">estate.property.tree</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <tree string="Properties" decoration-success="state in ['received','accepted']"  decoration-bf="state == 'accepted'" decoration-muted="state == 'sold'">
+                <field name="name" />
+                <field name="postcode"/>
+                <field name="bedrooms"/>
+                <field name="living_area" string="Living Area(sqm)"/>
+                <field name="expected_price" string="Expected Price"/>
+                <field name="selling_price" string="Selling Price"/>
+                <field name="date_availability" optional="hide" string="Available From"/>
+                <field name="state" optional="hide"></field>
+            </tree>
+        </field>
+    </record>
+</odoo>
