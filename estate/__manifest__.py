@@ -11,10 +11,10 @@
     'category': 'Customization',
     'depends': ['base'], # dependencies
     'data': [
-        #'security/ir.model.access.csv',
-        #'views/menu.xml',
-        #'views/patient.xml',
-        #'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        
+        'views/estate_property_views.xml',
+        'views/estate_menus.xml',
     ],
 
     'installable': True,
