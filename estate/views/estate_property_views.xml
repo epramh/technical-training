@@ -33,7 +33,7 @@
         <field name="name">estate.property.tree</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <tree string="Properties" decoration-success="state in ['received','accepted']"  decoration-bf="state == 'accepted'" decoration-muted="state == 'sold'">
+            <tree string="Properties" decoration-success="state in ['new','offer received']"  decoration-bf="state == 'accepted'" decoration-muted="state == 'sold'">
                 <field name="name" />
                 <field name="postcode"/>
                 <field name="bedrooms"/>
