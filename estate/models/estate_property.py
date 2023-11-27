@@ -20,6 +20,8 @@ class HospitalPatient(models.Model):
     selling_price = fields.Float(
         readonly=True, 
         copy=False)
+    
+    #Description
     bedrooms = fields.Integer(default="2")
     living_area = fields.Integer()
     facades = fields.Integer()
@@ -32,6 +34,7 @@ class HospitalPatient(models.Model):
         ('east', 'East'), 
         ('west', 'West')], 
         help = "Orientation is used to info the orientation of the garden")
+    
     active = fields.Boolean(#'Active',
         default=True,)
     state = fields.Selection(
@@ -45,3 +48,5 @@ class HospitalPatient(models.Model):
         default='new'
     )
     property_type_id = fields.Many2one("estate.property.type", string="Property Types")
+    user_id = fields.Many2one('res.users', string="Salesman", index=True, default=lambda self:self.env.user)
+    partner_id = fields.Many2one("res.partner", string='Buyer', index=True, copy=False)
