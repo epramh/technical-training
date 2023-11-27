@@ -32,7 +32,8 @@ class HospitalPatient(models.Model):
         ('east', 'East'), 
         ('west', 'West')], 
         help = "Orientation is used to info the orientation of the garden")
-    active = fields.Boolean('Active', default=False)
+    active = fields.Boolean(#'Active',
+        default=True,)
     state = fields.Selection(
         [('new', 'New'),
         ('offer received', 'Offer Received'),
