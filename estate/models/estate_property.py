@@ -43,4 +43,5 @@ class HospitalPatient(models.Model):
         required=True,
         copy=False,
         default='new'
+    property_type_id = fields.Many2one("estate.property.type", string="Property Types")
     )
