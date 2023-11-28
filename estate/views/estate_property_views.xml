@@ -80,6 +80,7 @@
                     </group>
 
                     <notebook>
+                        <!-- Onglets 'Description' -->
                         <page string="Description">
                             <group>
                                 <field name="description"/>
@@ -107,6 +108,14 @@
                             </group>
                         </page>
 
+                        <!-- Onglets 'Offers' -->
+                        <page string="Offers">
+                            <group>
+                                <field name="offer_ids" widget='estate_property_offer_view_tree'/>
+                            </group>
+                        </page>
+
+                        <!-- Onglets 'Other Info' -->
                         <page string="Other Info">
                             <group>
                                 <field name='user_id'/>
@@ -115,6 +124,7 @@
                                 <field name='partner_id'/>
                             </group>
                         </page>
+
                     </notebook>
                 </sheet>
             </form>

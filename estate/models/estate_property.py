@@ -2,7 +2,7 @@
 from odoo import fields, models
 from dateutil.relativedelta import relativedelta
 
-class HospitalPatient(models.Model):
+class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Real Estate Property"
 
@@ -52,3 +52,4 @@ class HospitalPatient(models.Model):
     user_id = fields.Many2one('res.users', string="Salesman", index=True, default=lambda self:self.env.user)
     partner_id = fields.Many2one("res.partner", string='Buyer', index=True, copy=False)
     tag_ids = fields.Many2many('estate.property.tag', string="Tags")
+    offer_ids = fields.One2many('estate.property.offer', "property_id", string='Offers')
