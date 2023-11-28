@@ -50,7 +50,10 @@
                             <label for="name"/>
                         </div> -->
                         <h1 class="mb32">
-                            <field name="name" class="mb16"/>
+                            <field name="name"/>
+                            <h2>
+                                <field name="tag_ids" widget="many2many_tags" class="h2"/>
+                            </h2>
                         </h1>
                         <!-- <field name="active" invisible="1"/> -->
                     </div>

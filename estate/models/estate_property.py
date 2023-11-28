@@ -51,3 +51,4 @@ class HospitalPatient(models.Model):
     property_type_id = fields.Many2one("estate.property.type", string="Property Types")
     user_id = fields.Many2one('res.users', string="Salesman", index=True, default=lambda self:self.env.user)
     partner_id = fields.Many2one("res.partner", string='Buyer', index=True, copy=False)
+    tag_ids = fields.Many2many('estate.property.tag', string="Tags")

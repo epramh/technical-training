@@ -19,6 +19,11 @@
                                         name='Property Types'
                                         parent='menu_settings_root'
                                         sequence="1"/>
+                        <menuitem   id="menu_property_tag_root" 
+                                        name='Property Tag'
+                                        action='estate_property_tag_action'
+                                        parent='menu_settings_root'
+                                        sequence="2"/>
         <menuitem   id="menu_estate_apps"
                         name='Apps'
                         sequence="2"/>
