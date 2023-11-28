@@ -20,6 +20,7 @@ class HospitalPatient(models.Model):
     selling_price = fields.Float(
         readonly=True, 
         copy=False)
+    property_type_id = fields.Char()
     
     #Description
     bedrooms = fields.Integer(default="2")
