@@ -25,7 +25,10 @@
         <field name="name">estate.property.tree</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <tree string="Properties" decoration-success="state in ['new','offer received']"  decoration-bf="state == 'accepted'" decoration-muted="state == 'sold'">
+            <tree string="Properties" 
+            decoration-success="state in ['new','offer received']"  
+            decoration-bf="state == 'accepted'" 
+            decoration-muted="state == 'sold'">
                 <field name="name"/>
                 <field name="postcode"/>
                 <field name="bedrooms"/>
@@ -52,7 +55,8 @@
                         <h1 class="mb32">
                             <field name="name"/>
                             <h2>
-                                <field name="tag_ids" widget="many2many_tags" class="h2"/>
+                                <field name="tag_ids" 
+                                widget="many2many_tags" class="h2"/>
                             </h2>
                         </h1>
                         <!-- <field name="active" invisible="1"/> -->
@@ -70,12 +74,15 @@
                             <field name="postcode"/>
                         </group>
                         <group>
-                            <field name="selling_price"/>
+                            <field name="best_price"/>
                         </group>
                     </group>
                     <group colspan="1" col="2">
                         <group>
                             <field name="date_availability"/>
+                        </group>
+                        <group>
+                            <field name="selling_price"/>
                         </group>
                     </group>
 
@@ -97,8 +104,13 @@
                             <group>
                                 <field name="garage"/>
                             </group>
-                            <group>
-                                <field name="garden"/>
+                            <group col="4">
+                                <group colspan="1">
+                                    <field name="garden"/>
+                                </group>
+                                <group colspan='3'>
+                                <field name="message"/>
+                                </group>
                             </group>
                             <group>
                                 <field name="garden_area"/>
@@ -106,12 +118,16 @@
                             <group>
                                 <field name="garden_orientation"/>
                             </group>
+                            <group>
+                                <field name="total_area"/>
+                            </group>
                         </page>
 
                         <!-- Onglets 'Offers' -->
                         <page string="Offers">
                             <group>
-                                <field name="offer_ids" widget='estate_property_offer_view_tree'/>
+                                <field name="offer_ids" 
+                                widget='estate_property_offer_view_tree'/>
                             </group>
                         </page>
 
@@ -140,11 +156,22 @@
                 <field name="postcode"/>
                 <field name="expected_price"/>
                 <field name="bedrooms"/>
-                <field name="living_area" string="Living Area(sqm)" filter_domain="[('living_area','>=',self)]"/>
+                <field name="living_area" 
+                string="Living Area(sqm)" 
+                filter_domain="[('living_area','>=',self)]"/>
                 <field name="facades"/>
-                <filter name="date_availability" string="Available" domain="[('date_availability', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
-                <group expand="1" string="Group By">
-                    <filter name="postcode" string="postcode" context="{'group_by':'postcode'}"/>
+                <filter name="date_availability" 
+                string="Available" 
+                domain="[(
+                    'date_availability',
+                    '&lt;=', 
+                    context_today().strftime('%Y-%m-%d')
+                )]"/>
+                <group expand="1" 
+                string="Group By">
+                    <filter name="postcode" 
+                    string="postcode" 
+                    context="{'group_by':'postcode'}"/>
                 </group>
             </search>
         </field>

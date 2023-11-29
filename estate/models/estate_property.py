@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models
+from odoo import _, api, fields, models
 from dateutil.relativedelta import relativedelta
 
 class EstateProperty(models.Model):
@@ -15,26 +15,37 @@ class EstateProperty(models.Model):
     postcode = fields.Char()
     date_availability = fields.Date(
         'Available From',copy=False, 
-        default=lambda self: fields.Datetime.today() + relativedelta(months=+3)) # Or fields.Datetime.today()
-    expected_price = fields.Float(required=True)
+        default=lambda self: fields.Datetime.today() + relativedelta(months=+3)
+    )
+    expected_price = fields.Float(
+        required=True
+    )
     selling_price = fields.Float(
         readonly=True, 
-        copy=False)
+        copy=False
+    )
     property_type_id = fields.Char()
     
     #Description
-    bedrooms = fields.Integer(default="2")
-    living_area = fields.Integer()
+    bedrooms = fields.Integer(
+        default="2"
+        )
+    living_area = fields.Integer(
+        string='Living Area (sqm)'
+    )
     facades = fields.Integer()
     garage = fields.Boolean()
     garden = fields.Boolean()
-    garden_area = fields.Integer()
+    garden_area = fields.Integer(
+        string='Garden Area (sqm)'
+    )
     garden_orientation = fields.Selection(
         [('north', 'North'), 
         ('south', 'South'), 
         ('east', 'East'), 
         ('west', 'West')], 
-        help = "Orientation is used to info the orientation of the garden")
+        help = "Orientation is used to info the orientation of the garden"
+    )
     
     active = fields.Boolean(#'Active',
         default=True,)
@@ -48,8 +59,65 @@ class EstateProperty(models.Model):
         copy=False,
         default='new'
     )
-    property_type_id = fields.Many2one("estate.property.type", string="Property Types")
-    user_id = fields.Many2one('res.users', string="Salesman", index=True, default=lambda self:self.env.user)
-    partner_id = fields.Many2one("res.partner", string='Buyer', index=True, copy=False)
-    tag_ids = fields.Many2many('estate.property.tag', string="Tags")
-    offer_ids = fields.One2many('estate.property.offer', "property_id", string='Offers')
+    property_type_id = fields.Many2one(
+        "estate.property.type", 
+        string="Property Types"
+    )
+    user_id = fields.Many2one(
+        'res.users', 
+        string="Salesman", 
+        index=True, 
+        default=lambda self:self.env.user
+    )
+    partner_id = fields.Many2one(
+        "res.partner", 
+        string='Buyer', 
+        index=True, 
+        copy=False
+    )
+    tag_ids = fields.Many2many(
+        'estate.property.tag', 
+        string="Tags"
+    )
+    offer_ids = fields.One2many(
+        'estate.property.offer', 
+        "property_id"
+    )
+
+    total_area = fields.Integer(
+        'Total Area (sqm)', 
+        compute="_compute_total_area"
+    )
+    best_price = fields.Float(
+        'Best Offer',
+        compute="_compute_best_price"
+    )
+
+    @api.depends('living_area', 'garden_area')
+    def _compute_total_area(self):
+        for record in self:
+            record.total_area = record.living_area + record.garden_area
+
+    @api.depends("offer_ids")
+    def _compute_best_price(self):
+        for record in self:
+            record.best_price = max(record.offer_ids.mapped("price")) if len(record.offer_ids)>0 else 0
+
+    message = fields.Text()
+    @api.onchange('garden')
+    def _onchange_garden(self):
+        for record in self:
+            if self.garden:
+                self.garden_area = 10
+                self.garden_orientation = 'north'
+                self.message = 'This check the garden option : add 10 in the garden_area and North in the garden_orientation'
+            # return {'warning': {
+            #     'title': _("Warning"),
+            #     'message': ('This check the garden option : add 10 in the garden_area and North in the garden_orientation')}}
+            else:
+                self.garden_area = None
+                self.garden_orientation = ""
+                self.message = 'This uncheck the garden option : remove 10 in the garden_area and North in the garden_orientation'
+            # return {'warning': {
+            #     'title': _("Warning"),
+            #     'message': ('This uncheck the garden option : remove 10 in the garden_area and North in the garden_orientation')}}
