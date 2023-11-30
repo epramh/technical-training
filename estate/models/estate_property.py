@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, exceptions, tools
 from dateutil.relativedelta import relativedelta
 
 class EstateProperty(models.Model):
@@ -50,14 +50,16 @@ class EstateProperty(models.Model):
     active = fields.Boolean(#'Active',
         default=True,)
     state = fields.Selection(
-        [('new', 'New'),
-        ('offer received', 'Offer Received'),
-        ('offer accepted', 'Offer Accepted'),
-        ('sold', 'Sold'),
+        [('new', 'New'), ('offer received', 'Offer Received'),
+        ('offer accepted', 'Offer Accepted'), ('sold', 'Sold'),
         ('canceled', 'Canceled')],
         required=True,
         copy=False,
         default='new'
+    )
+    status = fields.Selection(
+        selection= [('new','New'),('canceled','Canceled'),('sold','Sold')],
+        default = 'new'
     )
     property_type_id = fields.Many2one(
         "estate.property.type", 
@@ -92,6 +94,9 @@ class EstateProperty(models.Model):
         'Best Offer',
         compute="_compute_best_price"
     )
+    message = fields.Text()
+
+
 
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
@@ -102,8 +107,7 @@ class EstateProperty(models.Model):
     def _compute_best_price(self):
         for record in self:
             record.best_price = max(record.offer_ids.mapped("price")) if len(record.offer_ids)>0 else 0
-
-    message = fields.Text()
+    
     @api.onchange('garden')
     def _onchange_garden(self):
         for record in self:
@@ -121,3 +125,25 @@ class EstateProperty(models.Model):
             # return {'warning': {
             #     'title': _("Warning"),
             #     'message': ('This uncheck the garden option : remove 10 in the garden_area and North in the garden_orientation')}}
+    
+    def action_sold(self):
+        for record in self:
+            if self.status=='new':
+                self.status='sold'
+                self.state='sold'
+                return True
+            elif record.status=='canceled':
+                raise exceptions.UserError("Canceled property cannot be sold!")
+            else:
+                raise exceptions.UserError("The property has been sold")
+
+    def action_cancel(self):
+        for record in self:
+            if self.status=='new':
+                self.status='canceled'
+                self.state='canceled'
+                return True
+            elif record.status=='sold':
+                raise exceptions.UserError("Sold property cannot be canceled!")
+            else:
+                raise exceptions.UserError("The property has been canceled")

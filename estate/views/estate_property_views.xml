@@ -46,6 +46,11 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <form string="Estate Property">
+                <header>
+                    <button name="action_sold" string='sold' type="object"/>
+                    <button name="action_cancel" string='cancel' type="object"/>
+                    <field name="state" widget="statusbar" attrs="{'invisible':[('status','==','canceled')]}" statusbar_visible="new,received,accepted,sold,canceled"></field>
+                </header>
                 <sheet>
                     <!-- <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/> -->
                     <div class="ep_title">
@@ -55,15 +60,14 @@
                         <h1 class="mb32">
                             <field name="name"/>
                             <h2>
-                                <field name="tag_ids" 
-                                widget="many2many_tags" class="h2"/>
+                                <field name="tag_ids" widget="many2many_tags" class="h2"/>
                             </h2>
                         </h1>
                         <!-- <field name="active" invisible="1"/> -->
                     </div>
                     <group colspan="1" col="2">
                         <group>
-                            <field name="property_type_id"/>
+                            <field name="status" attrs="{'readonly':True}"/>
                         </group>
                         <group>
                             <field name="expected_price"/>
@@ -71,7 +75,7 @@
                     </group>
                     <group colspan="1" col="2">
                         <group>
-                            <field name="postcode"/>
+                            <field name="property_type_id"/>
                         </group>
                         <group>
                             <field name="best_price"/>
@@ -79,10 +83,15 @@
                     </group>
                     <group colspan="1" col="2">
                         <group>
-                            <field name="date_availability"/>
+                            <field name="postcode"/>
                         </group>
                         <group>
                             <field name="selling_price"/>
+                        </group>
+                    </group>
+                    <group colspan="1" col="2">
+                        <group>
+                            <field name="date_availability"/>
                         </group>
                     </group>
 
