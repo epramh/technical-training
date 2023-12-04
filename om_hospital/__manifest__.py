@@ -9,7 +9,10 @@
     'company': 'Company Name',
     #'website': 'https://www.odoomates.tech',
     'category': 'Customization',
-    'depends': ['base'], # dependencies
+    'depends': [
+        'base',
+        'mail'
+    ], # dependencies
     'data': [
         #'security/ir.model.access.csv',
         'views/menu.xml',
