@@ -39,6 +39,10 @@ class EstatePropertyOffer(models.Model):
         copy=False
     )
 
+    _sql_constraints = [
+        ('check_offer_price', 'CHECK(price > 0)', 'An offer price must be strictly positive')
+    ]
+
     @api.depends("create_date", 'validity')
     def _compute_date_deadline(self):
         for record in self:
@@ -56,7 +60,13 @@ class EstatePropertyOffer(models.Model):
             'selling_price': self.price,  # Copy price to selling_price
             'partner_id': self.partner_id.id  # Copy partner_id to buyer_id
         })
+    # def action_accept(self):
+    #     for rec in self:
+    #         if rec.status == 'accepted':
+    #             rec.selling_price = rec.price,
+    #             rec.partner_id = rec.partner_id.id
+    #         else:
+    #             rec.write({'status': 'refused'})
     def action_refuse(self):
         self.write({'status': 'refused'})
-    # def action_status(self):
             

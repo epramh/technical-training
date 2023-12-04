@@ -38,14 +38,18 @@
         <field name="arch" type="xml">
             <form string="Estate Property Types">
                 <sheet>
-                        <div class="ep_title">
-                            <!-- <div class="ep_edit_only">
-                                <label for="name"/>
-                            </div> -->
-                            <h1 class="mb32">
-                                <field name="name" class="mb16"/>
-                            </h1>
-                        </div>
+                    <field name="name" class="h2"/>
+                    <notebook>
+                        <page string="Properties">
+                            <field name="property_ids">
+                                <tree>
+                                    <field name="name" string="Title"></field>
+                                    <field name="expected_price" string="Expected Price"></field>
+                                    <field name="status" string="Status"></field>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

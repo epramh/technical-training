@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from odoo import _, api, fields, models, exceptions, tools
+
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError
+from decimal import *
 
 class EstateProperty(models.Model):
     _name = "estate.property"
@@ -96,8 +99,19 @@ class EstateProperty(models.Model):
     )
     message = fields.Text()
 
+    # SQL constraints
+    _sql_constraints = [
+    #    ('check_expected_price', 'CHECK(expected_price > 0)', 'A property expected price must be strictly positive.'),
+        ('check_selling_price', 'CHECK(selling_price => 0)', 'A property expected price must be strictly positive.')
+    ]
 
-
+    # Python constraints
+    @api.constrains('expected_price')
+    def _check_expected_price(self):
+        for rec in self:
+            if rec.expected_price < 0:
+                raise ValidationError(_('A property expected price must be strictly positive.'))
+    
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
         for record in self:
@@ -147,3 +161,16 @@ class EstateProperty(models.Model):
                 raise exceptions.UserError("Sold property cannot be canceled!")
             else:
                 raise exceptions.UserError("The property has been canceled")
+    
+        # SQL constraints
+    _sql_constraints = [
+        ('check_selling_price', 'CHECK(selling_price => (0.9*expected_price))', "The selling price cannot be lower than '90%' of the expected price.")
+    ]
+    # Python constraints
+    # @api.constrains('selling_price', 'expected_price')
+    # def _check_expected_pric(self):
+    #     for record in self:
+
+    #         if rec.expected_price < 0:
+    #             raise ValidationError(_('The selling price cannot be lower than 90 percent of the expected price.'))
+    
