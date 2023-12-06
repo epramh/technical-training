@@ -8,6 +8,7 @@ from decimal import *
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Real Estate Property"
+    _order = "id desc"
 
     name = fields.Char(
         string='Title',
@@ -62,6 +63,7 @@ class EstateProperty(models.Model):
     )
     status = fields.Selection(
         selection= [('new','New'),('canceled','Canceled'),('sold','Sold')],
+        copy=False,
         default = 'new'
     )
     property_type_id = fields.Many2one(

@@ -5,7 +5,7 @@ import datetime
 class EstatePropertyOffer(models.Model):
     _name = "estate.property.offer"
     _description = "Offer of Estate Property"
-    # _order =  'price desc'
+    _order =  'price desc'
 
     price = fields.Float()
     status = fields.Selection(
@@ -38,6 +38,8 @@ class EstatePropertyOffer(models.Model):
         readonly=True, 
         copy=False
     )
+
+    property_type_id = fields.Many2one(related='property_id.property_type_id', store=True)
 
     _sql_constraints = [
         ('check_offer_price', 'CHECK(price > 0)', 'An offer price must be strictly positive')

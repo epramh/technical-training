@@ -4,6 +4,8 @@
         <field name="name">Properties</field>
         <field name="res_model">estate.property</field>
         <field name="view_mode">tree,form</field>
+        <!-- Search default 'date availability' -->
+        <field name="context">{'search_default_date_availability': True}</field>
     </record>
     
     <menuitem   id="menu_estate_root" 
@@ -31,6 +33,7 @@
             decoration-muted="state == 'sold'">
                 <field name="name"/>
                 <field name="postcode"/>
+                <field name="tag_ids" widget="many2many_tags" class="h2" options="{'color_field': 'color'}"/>
                 <field name="bedrooms"/>
                 <field name="living_area" string="Living Area(sqm)"/>
                 <field name="expected_price" string="Expected Price"/>
@@ -47,9 +50,10 @@
         <field name="arch" type="xml">
             <form string="Estate Property">
                 <header>
-                    <button name="action_sold" string='sold' type="object"/>
-                    <button name="action_cancel" string='cancel' type="object"/>
-                    <field name="state" widget="statusbar" attrs="{'invisible':[('status','==','canceled')]}" statusbar_visible="new,received,accepted,sold,canceled"></field>
+                    <button name="action_sold" attrs="{'invisible':['|', ('status','=','canceled'), ('status','=','sold')]}" string='sold' type="object"/>
+                    <button name="action_cancel" attrs="{'invisible':['|', ('status','=','canceled'), ('status','=','sold')]}" string='cancel' type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,offer received,offer accepted,sold"/>
+                    <!-- <field name="state" widget="statusbar" attrs="{'invisible':[('status','=','canceled')]}" statusbar_visible="new,offer received,offer accepted,sold"></field> -->
                 </header>
                 <sheet>
                     <!-- <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/> -->
@@ -60,7 +64,7 @@
                         <h1 class="mb32">
                             <field name="name"/>
                             <h2>
-                                <field name="tag_ids" widget="many2many_tags" class="h2"/>
+                                <field name="tag_ids" widget="many2many_tags" class="h2" options="{'color_field': 'color'}"/>
                             </h2>
                         </h1>
                         <!-- <field name="active" invisible="1"/> -->
@@ -75,7 +79,8 @@
                     </group>
                     <group colspan="1" col="2">
                         <group>
-                            <field name="property_type_id"/>
+                            <!-- <field name="property_type_id" options="{'no_quick_create': True, 'no_create_edit': True}"/> -->
+                            <field name="property_type_id" options="{'no_create': True}"/>
                         </group>
                         <group>
                             <field name="best_price"/>
@@ -122,10 +127,10 @@
                                 </group>
                             </group>
                             <group>
-                                <field name="garden_area"/>
+                                <field name="garden_area" attrs="{'invisible': [('garden', '=', False)]}"/>
                             </group>
                             <group>
-                                <field name="garden_orientation"/>
+                                <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}"/>
                             </group>
                             <group>
                                 <field name="total_area"/>
@@ -136,7 +141,7 @@
                         <page string="Offers">
                             <group>
                                 <field name="offer_ids" 
-                                widget='estate_property_offer_view_tree'/>
+                                widget='estate_property_offer_view_tree' />
                             </group>
                         </page>
 
@@ -169,18 +174,9 @@
                 string="Living Area(sqm)" 
                 filter_domain="[('living_area','>=',self)]"/>
                 <field name="facades"/>
-                <filter name="date_availability" 
-                string="Available" 
-                domain="[(
-                    'date_availability',
-                    '&lt;=', 
-                    context_today().strftime('%Y-%m-%d')
-                )]"/>
-                <group expand="1" 
-                string="Group By">
-                    <filter name="postcode" 
-                    string="postcode" 
-                    context="{'group_by':'postcode'}"/>
+                <filter name="date_availability" string="Available" domain="[('date_availability', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <group expand="1" string="Group By">
+                    <filter name="postcode" string="postcode" context="{'group_by':'postcode'}"/>
                 </group>
             </search>
         </field>
