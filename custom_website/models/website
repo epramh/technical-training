@@ -1,0 +1,9 @@
+# -*- coding: utf-8 -*-
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
+
+class HrContract(models.Model):
+    _inherit = 'hr.contract'
+
+    retirement_age = fields.Char(string="Retirement Age:")
+    
