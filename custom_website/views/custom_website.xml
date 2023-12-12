@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="custom_website" name="Custom Website" inherit_id="website.homepage">
+        <!-- Customizations go here -->
+        <xpath expr="//div[contains(@class, 'oe_structure')]" position="replace">
+            <section class="s_cover bg-black-50 pt96 pb96 o_full_screen_height oe_img_bg o_bg_img_center o_colored_level" data-scroll-background-ratio="0" data-oe-shape-data="{&quot;shape&quot;:&quot;web_editor/Floats/02&quot;,&quot;flip&quot;:[]}" style="background-image: url(&quot;/web/image/website.s_cover_default_image&quot;); background-position: 50% 0px;" data-snippet="s_cover" data-name="Cover">
+				<div class="o_we_bg_filter bg-black-50"/>
+				<div class="o_we_shape o_web_editor_Floats_02 o_header_extra_shape_mapping"/>
+				<div class="container s_allow_columns">
+					<h1 style="text-align: center; font-family: fangsong;">
+						The Revolution <br/> in Virtual Reality are Awesome
+					</h1>
+							<p class="lead"><br/></p>
+					<p style="text-align: center;">
+								<a href="#0" class="btn btn-lg btn-primary">Discover more</a>
+					</p>
+				</div>
+			</section>
+		</xpath>
+    </template>
+
+</odoo>

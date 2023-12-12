@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
+
+class Website(models.Model):
+    _name = "custom.website"
+    _inherit = ['website']
+    _description = "Custom for Website"
+
+    name = fields.Char()

@@ -11,12 +11,12 @@
     'category': 'Customization',
     'depends': [
         'base',
-        'hr.contract'
+        'website'
     ], # dependencies
     'data': [
         # 'security/ir.model.access.csv',
         # 'views/menu.xml',
-        # 'views/website.xml'
+        'views/custom_website.xml'
     ],
 
     'installable': True,
